@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.post('/addHotel',getDataMiddleware,adminController.addHotel)
 router.post('/addRoom',getDataMiddleware,adminController.addRoom)
-router.delete('/removeHotel',getDataMiddleware,adminController.removeHotel)
-router.delete('/removeRoom',getDataMiddleware,adminController.removeRoom)
+router.delete('/removeHotel/:hotelId',getDataMiddleware,adminController.removeHotel)
+router.delete('/removeRoom/:roomId',getDataMiddleware,adminController.removeRoom)
 
 module.exports=router;
