@@ -11,8 +11,8 @@ const app=express();
 
 
 
-const userroutes=require('./routes/admin')
 const adminroutes=require('./routes/admin')
+const userroutes=require('./routes/user')
 
 
 
@@ -44,7 +44,7 @@ app.use((req,res)=>{
 
 
 
-mongoose.connect(process.env.MONGODB_STRING)
+mongoose.connect('mongodb+srv://ashutoshballawar:ashutoshballawar@cluster0.cxidpz2.mongodb.net/hotelbooking?retryWrites=true&w=majority')
 .then(result=>{
    
          console.log('connected')
