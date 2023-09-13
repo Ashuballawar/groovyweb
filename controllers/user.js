@@ -40,8 +40,8 @@ exports.adduserdata=async (req,res,next)=>{
         }
 }
 
-function generateAccessToken(Id,Name,ispremiuruser){
-   return jwt.sign({userdatumId:Id,Name:Name,ispremiuruser},process.env.JWT_SECRET)
+function generateAccessToken(Id,Name,isAdmin){
+   return jwt.sign({userdatumId:Id,Name:Name,isAdmin},process.env.JWT_SECRET)
 }
 
 exports.userlogin=async (req,res,next)=>{
