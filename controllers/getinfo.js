@@ -4,20 +4,32 @@ const Hotel=require('../models/hotel')
 exports.getinfo=(async (req,res)=>{
      
     try{
+
+
+        //if filter apply by user
       if(req.query.name.length!=0&&req.query.price>0){
         let hotelinfo=await Hotel.find(
             {isAvailable:true,pricePerDay:{$lt:req.query.price},name:req.query.name})
        
-            let roominfo=await room.find({isAvailable:true,pricePerDay:{$lt:req.query.price}}).populate('hotelAdmin')
-            return res.status(202).json({data:{room:roominfo,hotel:hotelinfo}})
+           
+            return res.status(202).json({data:{hotel:hotelinfo}})
         }
         else if(req.query.price>0){
             let hotelinfo=await Hotel.find({isAvailable:true},{pricePerDay:{$lt:req.query.price}})
             let roominfo=await room.find({isAvailable:true},{pricePerDay:{$lt:req.query.price}}).populate('hotelAdmin')
             return res.status(202).json({data:{room:roominfo,hotel:hotelinfo}})
         }
-        let roominfo=await room.find({isAvailable:true}).populate('hotelAdmin')
-        let hotelinfo=await Hotel.find({isAvailable:true})
+          else if(req.query.name.length!=0){
+            await Hotel.find(
+                {isAvailable:true,name:req.query.name})
+           
+             
+                return res.status(202).json({data:{hotel:hotelinfo}})
+        }
+
+        
+         let roominfo=await room.find({isAvailable:true}).populate('hotelAdmin')
+         let hotelinfo=await Hotel.find({isAvailable:true})
         res.status(202).json({data:{room:roominfo,hotel:hotelinfo}})
     
     }
