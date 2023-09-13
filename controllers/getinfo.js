@@ -12,8 +12,8 @@ exports.getinfo=(async (req,res)=>{
             return res.status(202).json({data:{room:roominfo,hotel:hotelinfo}})
         }
         else if(req.query.price>0){
-            let hotelinfo=await Hotel.find({an$d:{isAvailable:true},pricePerDay:{$lt:req.query.price}})
-            let roominfo=await room.find({$and:{isAvailable:true},pricePerDay:{$lt:req.query.price}}).populate('hotelAdmin')
+            let hotelinfo=await Hotel.find({isAvailable:true},{pricePerDay:{$lt:req.query.price}})
+            let roominfo=await room.find({isAvailable:true},{pricePerDay:{$lt:req.query.price}}).populate('hotelAdmin')
             return res.status(202).json({data:{room:roominfo,hotel:hotelinfo}})
         }
         let roominfo=await room.find({isAvailable:true}).populate('hotelAdmin')
@@ -31,7 +31,7 @@ exports.mybooking=(async(req,res)=>{
    res.status(202).json({data:mybooking})
    }
    catch(err){
-    res.status(500).json({err:error})
+    res.status(500).json({err:err})
    }
 })
 
@@ -43,7 +43,7 @@ try{
          res.status(202).json({msg:'booking cancel'})
 }
 catch(err){
-    res.status(500).json({err:error})
+    res.status(500).json({err:err})
 }
 
 

@@ -10,12 +10,8 @@ exports.bookroom=(async (req,res)=>{
 
 
     try{
-       const hotelID=req.body.hotelID
-       const roomID=req.body.roomID
-       const userID=req.body.userID        
-       const startDate=req.body.startDate
-       const endDate=req.body.endDate
-    const bookingData = req.body; 
+     
+  
     const newBooking = new Booking(
          hotelID=req.body.hotelID,
          roomID=req.body.roomID,
@@ -38,12 +34,8 @@ exports.bookroom=(async (req,res)=>{
 
   exports.bookhotel=(async (req,res)=>{
     try{
-        const hotelID=req.body.hotelID
-      
-       const userID=req.body.userID        
-       const startDate=req.body.startDate
-       const endDate=req.body.endDate
-    const bookingData = req.body; 
+       
+   
     const newBooking = new Booking(
          hotelID=req.body.hotelID,
        
