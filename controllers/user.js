@@ -52,7 +52,7 @@ exports.userlogin=async (req,res,next)=>{
        }
    
     try{
-    user=await admin.findAll({where:{Email:Email}})
+    user=await admin.find({Email:Email})
     console.log(user[0])
     if(user[0]){
         bcrypt.compare(Password,user[0].Password,(err,result)=>{
