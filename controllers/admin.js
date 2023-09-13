@@ -44,10 +44,10 @@ exports.addRoom=(async (req,res)=>{
             
         
     
-     const newRoom = new hotel({
+     const newRoom = new room({
         hotelName:hotelName,
         hotelAdmin:hotelAdmin,
-        roomType:omType ,      
+        roomType:roomType ,      
         pricePerDay:pricePerDay,
         isAvailbale:isAvailbale});
      await newRoom.save();
