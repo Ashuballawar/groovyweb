@@ -4,6 +4,12 @@ const Hotel=require('../models/hotel')
 exports.getinfo=(async (req,res)=>{
      
     try{
+
+        if(req.query.price>0){
+            let hotelinfo=await Hotel.find({$and:{isAvailable:true},pricePerDay:{$lt:req.query.price}})
+            let roominfo=await room.find({$and:{isAvailable:true},pricePerDay:{$lt:req.query.price}}).populate('hotelAdmin')
+            return res.status(202).json({data:{room:roominfo,hotel:hotelinfo}})
+        }
         let roominfo=await room.find({isAvailable:true}).populate('hotelAdmin')
         let hotelinfo=await Hotel.find({isAvailable:true})
         res.status(202).json({data:{room:roominfo,hotel:hotelinfo}})
