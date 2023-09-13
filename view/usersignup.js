@@ -5,7 +5,7 @@ const signupform=document.getElementById('signupform');
 signupform.addEventListener('submit',signup);
 async function signup(e){
       e.preventDefault();
-      const socket = io('http://localhost:5000')
+     
       let userinfo={
         Name:e.target.Name.value,
         Email:e.target.Email.value,

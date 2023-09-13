@@ -2,12 +2,12 @@ const mongoose=require('mongoose')
 
 const roomSchema=new mongoose.Schema({
     hotelName:{
-        type:Schema.Types.ObjectId,
+        type:mongoose.Schema.Types.ObjectId,
         ref:'hotel',
         required:true
     },
     hotelAdmin:{
-        type:Schema.Types.ObjectId,
+        type:mongoose.Schema.Types.ObjectId,
          ref:'User',
          required:true
     },

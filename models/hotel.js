@@ -18,7 +18,7 @@ const hotelSchema = new mongoose.Schema({
  
 
  hotelAdmin:{
-    type:Schema.Types.ObjectId,
+    type:mongoose.Schema.Types.ObjectId,
     ref:'User',
     required:true
 },
@@ -30,4 +30,4 @@ isAvailbale:{
  
 });
 
-export default mongoose.model("hotel", hotelSchema)
+module.exports=mongoose.model("hotel", hotelSchema)
