@@ -68,12 +68,12 @@ exports.addRoom=(async (req,res)=>{
     
     const hotelId = req.params.hotelId;
   
-    const hotel = await hotel.findById(hotelId);
-    if (!hotel) {
+    const Hotel = await hotel.findById(hotelId);
+    if (!Hotel) {
       return res.status(404).json({ message: 'Hotel not found' });
     }
    
-    await hotel.remove();
+    await hotel.deleteById(hotelId) ;
     res.status(204).send();}
 
    catch (err) {
@@ -87,12 +87,12 @@ exports.removeRoom=(async(req,res)=>{
     
         const roomId = req.params.roomId;
   
-    const room = await hotel.findById(roomId );
-    if (!room) {
+    const Room = await room.findById(roomId );
+    if (!Room) {
       return res.status(404).json({ message: 'Hotel not found' });
     }
    
-    await hotel.remove();
+    await hotel.deleteById(roomId);
     res.status(204).send();}
 
    catch (err) {
