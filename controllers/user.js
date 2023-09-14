@@ -14,7 +14,7 @@ exports.adduserdata=async (req,res,next)=>{
         const Name=req.body.Name
         const Email=req.body.Email
         const Password=req.body.Password
-        const isAdmin=req.body.Admin
+        const isAdmin=req.body.isAdmin
        if(isinvalid(Name)||isinvalid(Email)||isinvalid(Password)){
         return res.status(400).json({err:' Something is missing'})
        }
@@ -47,13 +47,15 @@ function generateAccessToken(Id,Name,isAdmin){
 exports.userlogin=async (req,res,next)=>{
     const Email=req.body.Email
     const Password=req.body.Password
+
     if(isinvalid(Email)||isinvalid(Password)){
         return res.status(400).json({err:' Something is missing'})
        }
    
     try{
+        console.log(Email)
     let user=await user.find({Email:Email})
-    console.log(user[0])
+    console.log(user)
     if(user[0]){
         bcrypt.compare(Password,user[0].Password,(err,result)=>{
            if(err){

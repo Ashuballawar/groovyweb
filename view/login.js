@@ -4,11 +4,12 @@ loginform.addEventListener('submit',login)
 async function login(e){
     e.preventDefault()
     User={Email:e.target.Email.value,
-        Password:e.target.Password.valuea
+        Password:e.target.Password.value
         }
     
         try{
-      response=await axios.post("http://localhost:3000/user/login",User)
+            console.log(User)
+      response=await axios.post("http://localhost:3000/user/signin",User)
       if(response.status==201){
         alert('login successful')
         console.log(response.data.token)
