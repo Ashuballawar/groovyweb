@@ -1,4 +1,4 @@
-const user=require('../models/user')
+const User=require('../models/user')
 const bcrypt=require('bcryptjs')
 const jwt=require('jsonwebtoken')
 require('dotenv').config()
@@ -53,8 +53,8 @@ exports.userlogin=async (req,res,next)=>{
        }
    
     try{
-        console.log(Email)
-    let user=await user.find({Email:Email})
+       
+    let user=await User.find({'Email':Email})
     console.log(user)
     if(user[0]){
         bcrypt.compare(Password,user[0].Password,(err,result)=>{
@@ -79,6 +79,7 @@ exports.userlogin=async (req,res,next)=>{
     } }
 
     catch(err){
+        console.log(err)
         res.status(500).json({error:err})
     }
 }
