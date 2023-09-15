@@ -22,7 +22,7 @@ exports.adduserdata=async (req,res,next)=>{
             bcrypt.hash(Password,10,async(err,hash)=>{
                 console.log(err)
                 try{
-                data=await user.create({Name:Name,Email:Email,Password:hash, isAdmin:isAdmin})
+                data=await User.create({Name:Name,Email:Email,Password:hash, isAdmin:isAdmin})
                 res.status(201).json(data)}
                 catch(err){
                     console.log('errr===',err.name)

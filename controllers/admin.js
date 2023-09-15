@@ -2,7 +2,21 @@ const admin=require('../models/user')
 const hotel=require('../models/hotel')
 const room=require('../models/room')
 
-
+exports.getHotel=(async(req,res)=>{
+ try{
+ 
+  if(req.user.isAdmin){
+  
+    let hotellist=await hotel.find({hotelAdmin:req.user._id})
+    let roomlist=await hotel.find({hotelAdmin:req.user._id})
+      res.status(203).json({data:{hotellist:hotellist,roomlist:roomlist}})
+  
+  }}
+  catch(err){
+    console.log(err)
+    res.status(500).json({err:err})
+  }
+})
 exports.addHotel=(async (req,res)=>{
    try{
    if(req.user.isAdmin){

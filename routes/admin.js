@@ -4,7 +4,7 @@ const adminController = require('../controllers/admin');
 
 
 const router = express.Router();
-
+router.get('/gethotel',getDataMiddleware,)
 router.post('/addHotel',getDataMiddleware,adminController.addHotel)
 router.post('/addRoom',getDataMiddleware,adminController.addRoom)
 router.delete('/removeHotel/:hotelId',getDataMiddleware,adminController.removeHotel)
