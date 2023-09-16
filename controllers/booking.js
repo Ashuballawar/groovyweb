@@ -11,7 +11,20 @@ exports.bookroom=(async (req,res)=>{
 
     try{
      
+
+
   console.log(req.body)
+  const existingBooking = await Booking.findOne({
+    hotelID:new mongoose.Types.ObjectId(req.body.hotelID),
+    roomID:new mongoose.Types.ObjectId(req.body.roomID),
+    startDate: { $gt: req.body.startDate },
+    endDate: { $lt: req.body.endDate },
+  });
+
+  if (existingBooking) {
+    return res.json({ available: false, message: 'Room not available for selected dates.' });
+  }
+
     const newBooking = new Booking({
          hotelID:new mongoose.Types.ObjectId(req.body.hotelID),
          roomID:new mongoose.Types.ObjectId(req.body.roomID),
@@ -19,7 +32,7 @@ exports.bookroom=(async (req,res)=>{
          startDate:req.body.startDate,
          endDate:req.body.endDate
     });
-    await Room.updateOne({_id:new mongoose.Types.ObjectId(req.body.roomID)},{$set:{isAvailbale:false}})
+    // await Room.updateOne({_id:new mongoose.Types.ObjectId(req.body.roomID)},{$set:{isAvailbale:false}})
     await newBooking.save();
    
     res.status(201).json(newBooking);
@@ -36,6 +49,15 @@ exports.bookroom=(async (req,res)=>{
   exports.bookhotel=(async (req,res)=>{
     try{
       console.log(req.body)
+      const existingBooking = await Booking.findOne({
+        hotelID:new mongoose.Types.ObjectId(req.body.hotelID),
+        roomID:null,
+        startDate: { $gt: req.body.startDate },
+        endDate: { $lt:req.body.endDate },
+      });
+      if (existingBooking) {
+        return res.json({ available: false, message: 'Hotel not available for selected dates.' });
+      }
    
     const newBooking = new Booking({
       
@@ -47,8 +69,8 @@ exports.bookroom=(async (req,res)=>{
      });
      
     // console.log(mongoose.Types.ObjectId(req.body.hotelID))
-     let res=await Hotel.findOneAndUpdate({_id:new mongoose.Types.ObjectId(req.body.hotelID)},{isAvailbale:false})
-    console.log('res        ',res)
+    //  let res=await Hotel.findOneAndUpdate({_id:new mongoose.Types.ObjectId(req.body.hotelID)},{isAvailbale:false})
+    // console.log('res        ',res)
     
      await newBooking.save();
       }

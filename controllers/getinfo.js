@@ -7,30 +7,8 @@ exports.getinfo=(async (req,res)=>{
     try{
 
 
-        //if filter apply by user
-        
-    //   if(req.query.name.length!=0&&req.query.price>0){
-    //     let hotelinfo=await Hotel.find(
-    //         {isAvailable:true,pricePerDay:{$lt:req.query.price},name:req.query.name})
-       
            
-    //         return res.status(202).json({data:{hotel:hotelinfo}})
-    //     }
-    //     else if(req.query.price>0){
-    //         let hotelinfo=await Hotel.find({isAvailable:true},{pricePerDay:{$lt:req.query.price}})
-    //         let roominfo=await room.find({isAvailable:true},{pricePerDay:{$lt:req.query.price}}).populate('hotelAdmin')
-    //         return res.status(202).json({data:{room:roominfo,hotel:hotelinfo}})
-    //     }
-    //       else if(req.query.name.length!=0){
-    //         let hotelinfo=await Hotel.find(
-    //             {isAvailable:true,name:req.query.name})
-           
-             
-    //             return res.status(202).json({data:{hotel:hotelinfo}})
-    //     }
-    
 
-        //  let roominfo=await room.find({isAvailable:true}).populate('hotelAdmin')
          let hotelinfo=await Hotel.find({isAvailbale:true})
          console.log('hotel info',hotelinfo)
         res.status(202).json({hotel:hotelinfo})
@@ -56,7 +34,7 @@ catch(err){
 
 exports.mybooking=(async(req,res)=>{
     console.log(req.user)
-   try{ let mybooking=await booking.find({userID:req.user._id}).populate('roomID')
+   try{ let mybooking=await booking.find({userID:req.user._id}).populate('roomID').populate('hotelID')
   console.log(mybooking)
    res.status(202).json(mybooking)
    }
@@ -68,15 +46,31 @@ exports.mybooking=(async(req,res)=>{
 
 
 exports.cancelbookin=(async(req,res)=>{
-try{
-         await booking.findOneAndDelete({$and:[{userID:req.user_id},{hotelID:req.params.id}]})
-         await Hotel.updateOne({_id:req.params.id},{$set:{isAvailable:true}})
+try{console.log(req.body)
+         await booking.findOneAndDelete({_id:req.body.id})
+         await Hotel.updateOne({_id:req.body.hotelid},{$set:{isAvailable:true}})
+         await room.updateOne({_id:req.body.roomid},{$set:{isAvailable:true}})
          res.status(202).json({msg:'booking cancel'})
 }
 catch(err){
+    console.log(err)
     res.status(500).json({err:err})
 }
 
 
+
+})
+
+
+exports.getfilter=(async (req,res)=>{
+try{
+   console.log(req.body)
+    let hotellist=await Hotel.find({isAvailbale:true,name:req.body.Name,price:{ $gt:req.body.lower, $lt:req.body.greater}})
+      res.staus(201).json(hotellist)
+}
+catch(err){
+    console.log(err)
+    res.status(500)
+}
 
 })

@@ -23,7 +23,7 @@ const roomSchema=new mongoose.Schema({
     },
     isAvailbale:{
         type:Boolean,
-        required:true
+        default:true
     },
 
 

@@ -9,11 +9,12 @@ const router = express.Router();
 router.post('/signup',userController.adduserdata)
 router.post('/signin',userController.userlogin)
 router.get('/gethotel',getDataMiddleware,getinfocontroller.getinfo)
+router.post('/gethotelfilter',getDataMiddleware,getinfocontroller.getfilter)
 router.get('/getroom/:id',getDataMiddleware,getinfocontroller.getroom)
 router.post('/bookhotel',getDataMiddleware,bookingController.bookhotel)
 router.post('/bookroom',getDataMiddleware,bookingController.bookroom)
 router.get('/mybooking',getDataMiddleware,getinfocontroller.mybooking)
-router.delete('/cancel/:id',getDataMiddleware,getinfocontroller.cancelbookin)
+router.post('/cancel',getDataMiddleware,getinfocontroller.cancelbookin)
 module.exports=router;
 
 

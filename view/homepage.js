@@ -65,8 +65,18 @@ async function mybooking(e){
     let res=await axios.get(`http://localhost:3000/user/mybooking`,{headers:{"Authorization":token}})
   console.log(res)
   res.data.forEach(e => {
-    document.getElementById('bookinglist').innerHTML+=`<li id=${e.roomID}></li>`
+    document.getElementById('bookinglist').innerHTML+=`<li id=${e._id}>${e.hotelID.name}------${e.roomID.roomType}<button onclick="cancel('${e._id}','${e.roomID._id}','${e.hotelID._id}')">cancel</button></li>`
   });
    
 
+}
+
+
+async function cancel(id,roomid,hotelid){
+let bookinginfo={
+    id:id,
+    roomid:roomid,
+    hotelid:hotelid
+}
+    await axios.post(`http://localhost:3000/user/cancel`,bookinginfo,{headers:{"Authorization":token}})
 }

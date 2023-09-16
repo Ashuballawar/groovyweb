@@ -24,9 +24,8 @@ const hotelSchema = new mongoose.Schema({
 },
 isAvailbale:{
     type:Boolean,
-    required:true
-  },
-
+    default:true
+},
  
  
 });
