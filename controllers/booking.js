@@ -22,7 +22,7 @@ exports.bookroom=(async (req,res)=>{
   });
 
   if (existingBooking) {
-    return res.json({ available: false, message: 'Room not available for selected dates.' });
+    return res.status(404).json({ available: false, message: 'Room not available for selected dates.' });
   }
 
     const newBooking = new Booking({
@@ -30,7 +30,7 @@ exports.bookroom=(async (req,res)=>{
          roomID:new mongoose.Types.ObjectId(req.body.roomID),
          userID:req.user._id,        
          startDate:req.body.startDate,
-         endDate:req.body.endDate
+         endDate:req.body.startDate
     });
     // await Room.updateOne({_id:new mongoose.Types.ObjectId(req.body.roomID)},{$set:{isAvailbale:false}})
     await newBooking.save();
@@ -53,10 +53,10 @@ exports.bookroom=(async (req,res)=>{
         hotelID:new mongoose.Types.ObjectId(req.body.hotelID),
         roomID:null,
         startDate: { $gt: req.body.startDate },
-        endDate: { $lt:req.body.endDate },
+        endDate: { $lt:req.body.startDate },
       });
       if (existingBooking) {
-        return res.json({ available: false, message: 'Hotel not available for selected dates.' });
+        return res.status(404).json({ available: false, message: 'Hotel not available for selected dates.' });
       }
    
     const newBooking = new Booking({
