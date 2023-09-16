@@ -6,8 +6,8 @@ const authenticate=async (req,res,next)=>{
       try{
         let token=req.header('Authorization')
         const Token=jwt.verify(token,process.env.JWT_SECRET)
-      
-        let user =await User.findById(Token.userId)
+     
+        let user =await User.findById(Token.userdatumId)
             console.log('======>',user)
         req.user=user;
         next();

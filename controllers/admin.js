@@ -1,15 +1,16 @@
 const admin=require('../models/user')
 const hotel=require('../models/hotel')
 const room=require('../models/room')
-
+const mongoose = require('mongoose');
 exports.getHotel=(async(req,res)=>{
  try{
  
   if(req.user.isAdmin){
   
     let hotellist=await hotel.find({hotelAdmin:req.user._id})
-    let roomlist=await hotel.find({hotelAdmin:req.user._id})
-      res.status(203).json({data:{hotellist:hotellist,roomlist:roomlist}})
+    // let roomlist=await hotel.find({hotelAdmin:req.user._id})
+    console.log(hotellist)
+      res.status(203).json(hotellist)
   
   }}
   catch(err){
@@ -17,6 +18,22 @@ exports.getHotel=(async(req,res)=>{
     res.status(500).json({err:err})
   }
 })
+
+exports.getRoom=(async(req,res)=>{
+try{
+  var id =new mongoose.Types.ObjectId(req.params.id)
+  // console.log('req params ',req.params.id)
+  let roomslist=await room.find({hotelName:id})
+  res.status(203).json(roomslist)
+}
+catch(err){
+  console.log(err)
+  res.status(500)
+}
+
+
+})
+
 exports.addHotel=(async (req,res)=>{
    try{
    if(req.user.isAdmin){
@@ -41,6 +58,7 @@ exports.addHotel=(async (req,res)=>{
    }
    }
    catch(err){
+    console.log(err)
     res.status(500).json({error:err})
    }
 
@@ -50,7 +68,10 @@ exports.addHotel=(async (req,res)=>{
 exports.addRoom=(async (req,res)=>{
     try{
     if(req.user.isAdmin){
-        const hotelName=req.body.hotelName
+       
+      let hotelinfo=await hotel.find({name:req.body.hotelName})
+      console.log(hotelinfo)
+      const hotelName=hotelinfo[0]._id
         const hotelAdmin=req.user._id
         const roomType=req.body.roomType       
         const pricePerDay=req.body.pricePerDay
@@ -59,7 +80,9 @@ exports.addRoom=(async (req,res)=>{
         
     
      const newRoom = new room({
-        hotelName:hotelName,
+      
+      
+      hotelName:hotelName,
         hotelAdmin:hotelAdmin,
         roomType:roomType ,      
         pricePerDay:pricePerDay,
@@ -72,6 +95,7 @@ exports.addRoom=(async (req,res)=>{
     }
     }
     catch(err){
+      console.log(err)
      res.status(500).json({error:err})
     }
  
@@ -79,18 +103,19 @@ exports.addRoom=(async (req,res)=>{
 
  exports.removeHotel=(async(req,res)=>{
     try{
+      var id =new mongoose.Types.ObjectId(req.params.hotelId)
     
-    const hotelId = req.params.hotelId;
   
-    const Hotel = await hotel.findById(hotelId);
+    const Hotel = await hotel.findById(id);
     if (!Hotel) {
       return res.status(404).json({ message: 'Hotel not found' });
     }
    
-    await hotel.deleteById(hotelId) ;
+    await hotel.findByIdAndDelete(id) ;
     res.status(204).send();}
 
    catch (err) {
+    console.log(err)
     res.status(400).json({ error: err});
   }
 });
@@ -98,15 +123,19 @@ exports.addRoom=(async (req,res)=>{
 
 exports.removeRoom=(async(req,res)=>{
     try{
+      var id =new mongoose.Types.ObjectId(req.params.roomId)
     
-        const roomId = req.params.roomId;
   
-    const Room = await room.findById(roomId );
+      const Room = await room.findById(id);
+      
+        
+  
+    
     if (!Room) {
       return res.status(404).json({ message: 'Hotel not found' });
     }
    
-    await hotel.deleteById(roomId);
+    await room.findByIdAndDelete(id);
     res.status(204).send();}
 
    catch (err) {

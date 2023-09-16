@@ -1,48 +1,67 @@
 const room=require('../models/room')
 const booking=require('../models/booking')
 const Hotel=require('../models/hotel')
+const mongoose=require('mongoose')
 exports.getinfo=(async (req,res)=>{
      
     try{
 
 
         //if filter apply by user
-      if(req.query.name.length!=0&&req.query.price>0){
-        let hotelinfo=await Hotel.find(
-            {isAvailable:true,pricePerDay:{$lt:req.query.price},name:req.query.name})
+        
+    //   if(req.query.name.length!=0&&req.query.price>0){
+    //     let hotelinfo=await Hotel.find(
+    //         {isAvailable:true,pricePerDay:{$lt:req.query.price},name:req.query.name})
        
            
-            return res.status(202).json({data:{hotel:hotelinfo}})
-        }
-        else if(req.query.price>0){
-            let hotelinfo=await Hotel.find({isAvailable:true},{pricePerDay:{$lt:req.query.price}})
-            let roominfo=await room.find({isAvailable:true},{pricePerDay:{$lt:req.query.price}}).populate('hotelAdmin')
-            return res.status(202).json({data:{room:roominfo,hotel:hotelinfo}})
-        }
-          else if(req.query.name.length!=0){
-            await Hotel.find(
-                {isAvailable:true,name:req.query.name})
+    //         return res.status(202).json({data:{hotel:hotelinfo}})
+    //     }
+    //     else if(req.query.price>0){
+    //         let hotelinfo=await Hotel.find({isAvailable:true},{pricePerDay:{$lt:req.query.price}})
+    //         let roominfo=await room.find({isAvailable:true},{pricePerDay:{$lt:req.query.price}}).populate('hotelAdmin')
+    //         return res.status(202).json({data:{room:roominfo,hotel:hotelinfo}})
+    //     }
+    //       else if(req.query.name.length!=0){
+    //         let hotelinfo=await Hotel.find(
+    //             {isAvailable:true,name:req.query.name})
            
              
-                return res.status(202).json({data:{hotel:hotelinfo}})
-        }
+    //             return res.status(202).json({data:{hotel:hotelinfo}})
+    //     }
+    
 
-        
-         let roominfo=await room.find({isAvailable:true}).populate('hotelAdmin')
-         let hotelinfo=await Hotel.find({isAvailable:true})
-        res.status(202).json({data:{room:roominfo,hotel:hotelinfo}})
+        //  let roominfo=await room.find({isAvailable:true}).populate('hotelAdmin')
+         let hotelinfo=await Hotel.find({isAvailbale:true})
+         console.log('hotel info',hotelinfo)
+        res.status(202).json({hotel:hotelinfo})
     
     }
     catch(err){
+        console.log(err)
         res.status(500).json({error:err})
     }
 })
+exports.getroom=(async(req,res)=>{
+try{
+    let resdata=await room.find({isAvailbale:true},{hotelName:new mongoose.Types.ObjectId(req.params.id)}).select("_id roomType pricePerDay")
+       res.status(202).json({resdata})
+}
+catch(err){
+    console.log(err)
+    res.status(500)
+}
+})
+
+
 
 exports.mybooking=(async(req,res)=>{
-   try{ let mybooking=await booking.find({userID:req.user_id}) 
-   res.status(202).json({data:mybooking})
+    console.log(req.user)
+   try{ let mybooking=await booking.find({userID:req.user._id}).populate('roomID')
+  console.log(mybooking)
+   res.status(202).json(mybooking)
    }
    catch(err){
+    console.log(err)
     res.status(500).json({err:err})
    }
 })

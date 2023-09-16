@@ -2,56 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hotel Booking</title>
-  
+    <title>Home Page</title>
 </head>
 <body>
-    <header>
-        <h1>Welcome to Hotel Booking</h1>
-       
-    </header>
+    <!-- <input type="button" value="add hotel" id="add_hotel"> -->
+   <ul id="hotellist"></ul>
 
-    <main>
-        <section class="search">
-            <h2>Search for Hotels</h2>
-            <form id="search-form">
-                <label for="location">Location:</label>
-                <input type="text" id="location" name="location" required>
-
-                <label for="check-in">Check-in Date:</label>
-                <input type="date" id="check-in" name="check-in" required>
-
-                <label for="check-out">Check-out Date:</label>
-                <input type="date" id="check-out" name="check-out" required>
-
-                <label for="room-type">Room Type:</label>
-                <select id="room-type" name="room-type">
-                    <option value="single">Single</option>
-                    <option value="double">Double</option>
-                    <option value="suite">Suite</option>
-                  
-                </select>
-
-                <button type="submit">Search</button>
-            </form>
-        </section>
-
-        <section class="results">
-            <h2>Search Results</h2>
-            <div id="hotel-list">
-              
-            </div>
-        </section>
-    </main>
-
-    <footer>
-    
-    </footer>
-
-   
-    <script src="homepage.js"></script>
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/axios/1.2.2/axios.min.js"></script>
+   <button id="mybooking">mybooking</button>
+   <ul id="bookinglist"></ul>
+<script src="homepage.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/axios/1.2.2/axios.min.js"></script>
 </body>
+
 </html>
