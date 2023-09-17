@@ -13,6 +13,7 @@ let roominfo={
          startDate:e.target.start.value,
          endDate:e.target.end.value
 }
+console.log(roominfo)
 
 let res=await axios.post("http://localhost:3000/user/bookroom",roominfo,{headers:{"Authorization":token}})
 if(res.status==201){

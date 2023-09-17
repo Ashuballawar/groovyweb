@@ -46,37 +46,37 @@ exports.bookroom=(async (req,res)=>{
 })
 
 
-  exports.bookhotel=(async (req,res)=>{
-    try{
-      console.log(req.body)
-      const existingBooking = await Booking.findOne({
-        hotelID:new mongoose.Types.ObjectId(req.body.hotelID),
-        roomID:null,
-        startDate: { $gt: req.body.startDate },
-        endDate: { $lt:req.body.startDate },
-      });
-      if (existingBooking) {
-        return res.status(404).json({ available: false, message: 'Hotel not available for selected dates.' });
-      }
+  // exports.bookhotel=(async (req,res)=>{
+  //   try{
+  //     console.log(req.body)
+  //     const existingBooking = await Booking.findOne({
+  //       hotelID:new mongoose.Types.ObjectId(req.body.hotelID),
+  //       roomID:null,
+  //       startDate: { $gt: req.body.startDate },
+  //       endDate: { $lt:req.body.startDate },
+  //     });
+  //     if (existingBooking) {
+  //       return res.status(404).json({ available: false, message: 'Hotel not available for selected dates.' });
+  //     }
    
-    const newBooking = new Booking({
+  //   const newBooking = new Booking({
       
-         hotelID:new mongoose.Types.ObjectId(req.body.hotelID),
+  //        hotelID:new mongoose.Types.ObjectId(req.body.hotelID),
        
-         userID:req.user._id,   
-         startDate:req.body.startDate,
-         endDate:req.body.endDate
-     });
+  //        userID:req.user._id,   
+  //        startDate:req.body.startDate,
+  //        endDate:req.body.endDate
+  //    });
      
-    // console.log(mongoose.Types.ObjectId(req.body.hotelID))
-    //  let res=await Hotel.findOneAndUpdate({_id:new mongoose.Types.ObjectId(req.body.hotelID)},{isAvailbale:false})
-    // console.log('res        ',res)
+  //   // console.log(mongoose.Types.ObjectId(req.body.hotelID))
+  //   //  let res=await Hotel.findOneAndUpdate({_id:new mongoose.Types.ObjectId(req.body.hotelID)},{isAvailbale:false})
+  //   // console.log('res        ',res)
     
-     await newBooking.save();
-      }
+  //    await newBooking.save();
+  //     }
       
-      catch(error) {
-        console.log(error)
-        res.status(400).json({ error: error });
-      }})
+  //     catch(error) {
+  //       console.log(error)
+  //       res.status(400).json({ error: error });
+  //     }})
      

@@ -15,7 +15,7 @@ function addingbutton(e){
     try{
 ul.innerHTML+=`<li id='${e._id}'>
 <button value="${e.name}" onclick="getrooms('${e._id}')">${e.name}</button>
-<button value="${e.name}" onclick="bookhotel('${e._id}')">book</button>
+ 
 </li> `}
 catch(err){
     console.log(err)
@@ -65,7 +65,7 @@ async function mybooking(e){
     let res=await axios.get(`http://localhost:3000/user/mybooking`,{headers:{"Authorization":token}})
   console.log(res)
   res.data.forEach(e => {
-    document.getElementById('bookinglist').innerHTML+=`<li id=${e._id}>${e.hotelID.name}------${e.roomID.roomType}<button onclick="cancel('${e._id}','${e.roomID._id}','${e.hotelID._id}')">cancel</button></li>`
+    document.getElementById('bookinglist').innerHTML+=`<li id='${e._id}'>${e.hotelID.name}------${e.roomID.roomType}<button onclick="cancel('${e._id}','${e.roomID._id}','${e.hotelID._id}')">cancel</button></li>`
   });
    
 
