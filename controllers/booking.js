@@ -18,7 +18,7 @@ exports.bookroom=(async (req,res)=>{
     hotelID:new mongoose.Types.ObjectId(req.body.hotelID),
     roomID:new mongoose.Types.ObjectId(req.body.roomID),
     startDate: { $gt: req.body.startDate },
-    endDate: { $lt: req.body.endDate },
+    endDate: { $lt: req.body.startDate },
   });
 
   if (existingBooking) {
@@ -30,7 +30,7 @@ exports.bookroom=(async (req,res)=>{
          roomID:new mongoose.Types.ObjectId(req.body.roomID),
          userID:req.user._id,        
          startDate:req.body.startDate,
-         endDate:req.body.startDate
+         endDate:req.body.endDate
     });
     // await Room.updateOne({_id:new mongoose.Types.ObjectId(req.body.roomID)},{$set:{isAvailbale:false}})
     await newBooking.save();
