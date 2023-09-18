@@ -11,18 +11,20 @@ exports.bookroom=(async (req,res)=>{
 
     try{
      
-
+if(req.body.startDate>req.body.endDate||new Date(req.body.startDate)<new Date()){
+  return res.status(400).json({error:'Invalid Input'})
+}
 
   console.log(req.body)
   const existingBooking = await Booking.findOne({$or:[{
     hotelID:new mongoose.Types.ObjectId(req.body.hotelID),
     roomID:new mongoose.Types.ObjectId(req.body.roomID),
-     startDate: { $lt: req.body.startDate },
-    endDate: { $gt: req.body.startDate },
+     startDate: { $lte: req.body.startDate },
+    endDate: { $gte: req.body.startDate },
     },{hotelID:new mongoose.Types.ObjectId(req.body.hotelID),
     roomID:new mongoose.Types.ObjectId(req.body.roomID),
-     startDate: { $lt: req.body.endDate },
-    endDate: { $gt: req.body.endDate }}]});
+     startDate: { $lte: req.body.endDate },
+    endDate: { $gte: req.body.endDate }}]});
 
   if (existingBooking) {
     return res.status(404).json({ available: false, message: 'Room not available for selected dates.' });
@@ -35,7 +37,20 @@ exports.bookroom=(async (req,res)=>{
          startDate:req.body.startDate,
          endDate:req.body.endDate
     });
-    // await Room.updateOne({_id:new mongoose.Types.ObjectId(req.body.roomID)},{$set:{isAvailbale:false}})
+    let bookeddates=await Room.findOne({_id:new mongoose.Types.ObjectId(req.body.roomID),isAvailbale:true})
+    
+    
+    let arr=bookeddates.bookedDates
+   let date1=new Date(req.body.startDate)
+   let date2=new Date(req.body.endDate)
+    while (date1 <= date2) {
+      arr.push(new Date(date1));
+    
+      date1.setDate(date1.getDate() + 1);
+    }
+
+
+     await Room.updateOne({_id:new mongoose.Types.ObjectId(req.body.roomID)},{$set:{bookedDates:arr}})
     await newBooking.save();
    
     res.status(201).json(newBooking);

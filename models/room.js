@@ -25,6 +25,9 @@ const roomSchema=new mongoose.Schema({
         type:Boolean,
         default:true
     },
+    bookedDates: 
+    {type:[Date]}
+    ,
 
 
 

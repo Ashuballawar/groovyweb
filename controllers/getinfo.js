@@ -65,8 +65,15 @@ catch(err){
 exports.getfilter=(async (req,res)=>{
 try{
    console.log(req.body)
-    let hotellist=await Hotel.find({isAvailbale:true,name:req.query.Name,price:{ $gt:req.query.lower, $lt:req.query.greater}})
-      res.staus(200).json(hotellist)
+          let hotel=await Hotel.find({name:req.query.Name})
+    let roomlist=await room.find({isAvailbale:true,hotelName:hotel._id,price:{ $gt:req.query.lower, $lt:req.query.greater},})
+    let availableroom=[]
+    roomlist.forEach(e => {
+        availableroom=e.bookedDates.filter(x=>{
+            return (x!=req.query.startdate||x!=req.query.enddate)
+        })
+     });
+    res.staus(200).json(availableroom)
 }
 catch(err){
     console.log(err)
