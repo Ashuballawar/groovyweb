@@ -14,12 +14,15 @@ exports.bookroom=(async (req,res)=>{
 
 
   console.log(req.body)
-  const existingBooking = await Booking.findOne({
+  const existingBooking = await Booking.findOne({$or:[{
     hotelID:new mongoose.Types.ObjectId(req.body.hotelID),
     roomID:new mongoose.Types.ObjectId(req.body.roomID),
-    startDate: { $gt: req.body.startDate },
-    endDate: { $lt: req.body.startDate },
-  });
+     startDate: { $lt: req.body.startDate },
+    endDate: { $gt: req.body.startDate },
+    },{hotelID:new mongoose.Types.ObjectId(req.body.hotelID),
+    roomID:new mongoose.Types.ObjectId(req.body.roomID),
+     startDate: { $lt: req.body.endDate },
+    endDate: { $gt: req.body.endDate }}]});
 
   if (existingBooking) {
     return res.status(404).json({ available: false, message: 'Room not available for selected dates.' });
