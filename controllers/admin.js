@@ -10,7 +10,7 @@ exports.getHotel=(async(req,res)=>{
     let hotellist=await hotel.find({hotelAdmin:req.user._id})
     // let roomlist=await hotel.find({hotelAdmin:req.user._id})
     console.log(hotellist)
-      res.status(203).json(hotellist)
+      res.status(200).json(hotellist)
   
   }}
   catch(err){
@@ -24,7 +24,7 @@ try{
   var id =new mongoose.Types.ObjectId(req.params.id)
   // console.log('req params ',req.params.id)
   let roomslist=await room.find({hotelName:id})
-  res.status(203).json(roomslist)
+  res.status(200).json(roomslist)
 }
 catch(err){
   console.log(err)

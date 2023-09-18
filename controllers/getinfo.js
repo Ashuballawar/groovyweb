@@ -11,7 +11,7 @@ exports.getinfo=(async (req,res)=>{
 
          let hotelinfo=await Hotel.find({isAvailbale:true})
          console.log('hotel info',hotelinfo)
-        res.status(202).json({hotel:hotelinfo})
+        res.status(200).json({hotel:hotelinfo})
     
     }
     catch(err){
@@ -22,7 +22,7 @@ exports.getinfo=(async (req,res)=>{
 exports.getroom=(async(req,res)=>{
 try{
     let resdata=await room.find({isAvailbale:true},{hotelName:new mongoose.Types.ObjectId(req.params.id)}).select("_id roomType pricePerDay")
-       res.status(202).json({resdata})
+       res.status(200).json({resdata})
 }
 catch(err){
     console.log(err)
@@ -36,7 +36,7 @@ exports.mybooking=(async(req,res)=>{
     console.log(req.user)
    try{ let mybooking=await booking.find({userID:req.user._id}).populate('roomID').populate('hotelID')
   console.log(mybooking)
-   res.status(202).json(mybooking)
+   res.status(200).json(mybooking)
    }
    catch(err){
     console.log(err)
@@ -50,7 +50,7 @@ try{console.log(req.body)
          await booking.findOneAndDelete({_id:req.body.id})
          await Hotel.updateOne({_id:req.body.hotelid},{$set:{isAvailable:true}})
          await room.updateOne({_id:req.body.roomid},{$set:{isAvailable:true}})
-         res.status(202).json({msg:'booking cancel'})
+         res.status(200).json({msg:'booking cancel'})
 }
 catch(err){
     console.log(err)
@@ -65,8 +65,8 @@ catch(err){
 exports.getfilter=(async (req,res)=>{
 try{
    console.log(req.body)
-    let hotellist=await Hotel.find({isAvailbale:true,name:req.body.Name,price:{ $gt:req.body.lower, $lt:req.body.greater}})
-      res.staus(201).json(hotellist)
+    let hotellist=await Hotel.find({isAvailbale:true,name:req.query.Name,price:{ $gt:req.query.lower, $lt:req.query.greater}})
+      res.staus(200).json(hotellist)
 }
 catch(err){
     console.log(err)

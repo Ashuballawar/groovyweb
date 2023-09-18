@@ -9,7 +9,7 @@ const router = express.Router();
 router.post('/signup',userController.adduserdata)
 router.post('/signin',userController.userlogin)
 router.get('/gethotel',getDataMiddleware,getinfocontroller.getinfo)
-router.post('/gethotelfilter',getDataMiddleware,getinfocontroller.getfilter)
+router.get('/gethotelfilter',getDataMiddleware,getinfocontroller.getfilter)
 router.get('/getroom/:id',getDataMiddleware,getinfocontroller.getroom)
 // router.post('/bookhotel',getDataMiddleware,bookingController.bookhotel)
 router.post('/bookroom',getDataMiddleware,bookingController.bookroom)
