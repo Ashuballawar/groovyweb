@@ -24,6 +24,9 @@ if(res.status==201){
         if(err.response.status==404){
             document.body.innerHTML+=`<h3>Rooms not available</h3>`
         }
+        else if(err.response.status==400){
+            document.body.innerHTML+=`<h3>Invalid Input</h3>`
+        }
         
         
     }
