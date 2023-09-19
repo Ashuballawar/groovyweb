@@ -47,9 +47,23 @@ exports.mybooking=(async(req,res)=>{
 
 exports.cancelbookin=(async(req,res)=>{
 try{console.log(req.body)
-         await booking.findOneAndDelete({_id:req.body.id})
-         await Hotel.updateOne({_id:req.body.hotelid},{$set:{isAvailable:true}})
-         await room.updateOne({_id:req.body.roomid},{$set:{isAvailable:true}})
+        let bookinfo=await booking.findByIdAndDelete({_id:req.body.id})
+        let bookedroom=await room.find({_id:req.body.roomid})
+        let date1=new Date(bookinfo.startDate)
+        let date2=new Date(bookinfo.endDate)
+        console.log(bookedroom)
+    let bookeddate1=bookedroom[0].bookedDates.filter(e=>{
+        return e<date1
+    })
+    let bookeddate2=bookedroom[0].bookedDates.filter(e=>{
+        return e>date2
+    })
+    let bookeddate=[...bookeddate1,...bookeddate2]
+    console.log('=====>',bookeddate)
+    await room.updateOne({_id:req.body.roomid},{$set:{isAvailable:true}})
+        //  await Hotel.updateOne({_id:req.body.hotelid},{$set:{isAvailable:true}})
+         await room.updateOne({_id:req.body.roomid},{$set:{bookedDates:bookeddate}})
+        
          res.status(200).json({msg:'booking cancel'})
 }
 catch(err){
@@ -70,7 +84,7 @@ try{
     let availableroom=[]
     roomlist.forEach(e => {
         availableroom=e.bookedDates.filter(x=>{
-            return (x!=req.query.startdate||x!=req.query.enddate)
+            return x<req.query.startdate&&x>req.query.enddate
         })
      });
     res.staus(200).json(availableroom)
