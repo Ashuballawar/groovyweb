@@ -43,13 +43,14 @@ async function getrooms(id){
 }
 
 async function addbutton(e,hotelName){
-document.getElementById(hotelName).innerHTML+=`<li id='${e._id}'>${e.roomType}--${e.pricePerDay}</li><button onclick="bookroom('${e._id}','${hotelName}')">booknow</button>`
+document.getElementById(hotelName).innerHTML+=`<li id='${e._id}'>${e.roomType}--${e.pricePerDay}</li><button onclick="bookroom('${e._id}','${hotelName}',${e.pricePerDay})">booknow</button>`
 }
-async function bookroom(id,hotelID){
+async function bookroom(id,hotelID,price){
     event.preventDefault()
     console.log(id,  hotelID)
     localStorage.setItem('room',id)
     localStorage.setItem('hotelIDforroom',hotelID)
+    localStorage.setItem('price',price)
 
     window.location.href="./bookroom.html"
     // await axios.delete(`http://localhost:3000/admin/removeRoom/${id}`,{headers:{"Authorization":token}})

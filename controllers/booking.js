@@ -29,13 +29,14 @@ if(req.body.startDate>req.body.endDate||new Date(req.body.startDate)<new Date())
   if (existingBooking) {
     return res.status(404).json({ available: false, message: 'Room not available for selected dates.' });
   }
-
+console.log((new Date(req.body.endDate)-new Date(req.body.startDate))/(1000 * 60 * 60 * 24))
     const newBooking = new Booking({
          hotelID:new mongoose.Types.ObjectId(req.body.hotelID),
          roomID:new mongoose.Types.ObjectId(req.body.roomID),
          userID:req.user._id,        
          startDate:req.body.startDate,
-         endDate:req.body.endDate
+         endDate:req.body.endDate,
+         TotalCost:(new Date(req.body.endDate)-new Date(req.body.startDate))/(1000 * 60 * 60 * 24)*Number(req.body.price)
     });
     let bookeddates=await Room.findOne({_id:new mongoose.Types.ObjectId(req.body.roomID),isAvailbale:true})
     

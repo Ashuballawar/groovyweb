@@ -6,12 +6,15 @@ async function bookhotel(e){
     try{
     let id=localStorage.getItem('room')
     let hotelID=localStorage.getItem('hotelIDforroom')
+    let price=localStorage.getItem('price')
 let roominfo={
               roomID:id,
        
               hotelID:hotelID,
          startDate:e.target.start.value,
-         endDate:e.target.end.value
+         endDate:e.target.end.value,
+         price:price
+
 }
 console.log(roominfo)
 
