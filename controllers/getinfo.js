@@ -92,7 +92,7 @@ try{
 
    
     roomlist.forEach(e => {
-        e.bookedDates.forEach((e,index,arr)=>{
+        e.bookedDates.forEach((e,index,arr1)=>{
              if(arr.includes(e)){
                 let i=arr.indexOf(e)
                 arr.splice(i,1)
