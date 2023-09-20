@@ -91,18 +91,19 @@ try{
             date1.setDate(date1.getDate() + 1);
           }
 
-   
+   let arr1=[];
     roomlist.forEach(e => {
+       let arr2=[...arr]
         e.bookedDates.forEach((e,index,arr1)=>{
-             if(arr.includes(e)){
-                let i=arr.indexOf(e)
-                arr.splice(i,1)
+             if(arr2.includes(e)){
+                let i=arr2.indexOf(e)
+                arr2.splice(i,1)
              }
         })
-          
+          arr1.push([e.roomType,arr2])
         })
      
-    res.status(200).json({roomlist:roomlist,datesavailable:arr})
+    res.status(200).json({roomlist:roomlist,datesavailable:arr1})
 }
 catch(err){
     console.log(err)
