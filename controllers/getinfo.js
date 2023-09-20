@@ -81,13 +81,26 @@ try{
    console.log(req.body)
           let hotel=await Hotel.find({name:req.query.Name})
     let roomlist=await room.find({isAvailbale:true,hotelName:hotel[0]._id,price:{ $gt:req.query.lower, $lt:req.query.greater},})
-    // let availableroom=[]
-    // roomlist.forEach(e => {
-    //     availableroom=e.bookedDates.filter(x=>{
-    //         return x<req.query.startdate&&x>req.query.enddate
-    //     })
-    //  });
-    res.staus(200).json(roomlist)
+   let arr=[]
+    let date1=new Date(req.query.startDate)
+        let date2=new Date(req.query.endDate)
+        while (date1 <= date2) {
+            arr.push(new Date(date1));
+          
+            date1.setDate(date1.getDate() + 1);
+          }
+
+    let availableroom=[]
+    roomlist.forEach(e => {
+        e.bookedDates.forEach((e,index,arr)=>{
+             if(arr.includes(e)){
+                arr.splice(index,1)
+             }
+        })
+          
+        })
+     
+    res.staus(200).json({roomlist:roomlist,datesavailable:arr})
 }
 catch(err){
     console.log(err)
@@ -95,3 +108,5 @@ catch(err){
 }
 
 })
+
+
