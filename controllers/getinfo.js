@@ -79,8 +79,9 @@ catch(err){
 exports.getfilter=(async (req,res)=>{
 try{
    console.log(req.body)
-          let hotel=await Hotel.find({name:req.query.Name})
-    let roomlist=await room.find({isAvailbale:true,hotelName:hotel[0]._id,price:{ $gt:req.query.lower, $lt:req.query.greater},})
+   console.log('hotel name=======>',req.query.Name)
+          let hotel=await Hotel.findOne({name:'ashoka'})
+    let roomlist=await room.find({isAvailbale:true,hotelName:hotel._id,price:{ $gt:req.query.lower, $lt:req.query.greater},})
    let arr=[]
     let date1=new Date(req.query.startDate)
         let date2=new Date(req.query.endDate)
@@ -101,7 +102,7 @@ try{
           
         })
      
-    res.staus(200).json({roomlist:roomlist,datesavailable:arr})
+    res.status(200).json({roomlist:roomlist,datesavailable:arr})
 }
 catch(err){
     console.log(err)
