@@ -90,11 +90,12 @@ try{
             date1.setDate(date1.getDate() + 1);
           }
 
-    let availableroom=[]
+   
     roomlist.forEach(e => {
         e.bookedDates.forEach((e,index,arr)=>{
              if(arr.includes(e)){
-                arr.splice(index,1)
+                let i=arr.indexOf(e)
+                arr.splice(i,1)
              }
         })
           
