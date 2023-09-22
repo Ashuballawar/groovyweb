@@ -84,8 +84,8 @@ try{
    console.log('hotel name=======>',req.query.Name.toString(),req.query.lower,req.query.greater)
           let hotel=await Hotel.findOne({name:req.query.Name.toString()})
 
-    // let roomlist=await room.find({hotelName:hotel._id,pricePerDay:{$gt:Number(req.query.lower), $lt:Number(req.query.greater)},})
-    let roomlist=await room.find({hotelName:hotel._id,})
+    let roomlist=await room.find({hotelName:hotel._id,pricePerDay:{$gt:Number(req.query.lower), $lt:Number(req.query.greater)},})
+    // let roomlist=await room.find({hotelName:hotel._id,})
   
     let arr=[]
    console.log('roomlist',roomlist,hotel)
@@ -103,7 +103,7 @@ try{
       
        if(e.bookedDates.length>0){
         e.bookedDates.forEach((e,index,arr1)=>{
-           
+            
              if(arr2.includes(e)){
                
                 let i=arr2.indexOf(new Date(e))
