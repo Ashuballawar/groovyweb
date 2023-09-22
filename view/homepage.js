@@ -81,3 +81,20 @@ let bookinginfo={
 }
     await axios.post(`http://localhost:3000/user/cancel`,bookinginfo,{headers:{"Authorization":token}})
 }
+
+document.getElementById('filter').addEventListener('submit',async (e)=>{
+    e.preventDefault()
+    try{
+  let name=e.target.search.value
+  let lower=e.target.lowerprice.value
+  let upper=e.target.upperprice.value
+  let startdate=e.target.startdate.value
+  let enddate=e.target.enddate.value
+    let res=await axios.get(`http://localhost:3000/user/gethotelfilter?Name=${name}&lower=${lower}&greater=${upper}&startDate=${startdate}&endDate=${enddate}`,{headers:{"Authorization":token}})
+   document.body.innerHTML+=`<h3>roomName and available Dates=${res.data.datesavailable}</h3>`
+}
+    catch(err){
+        console.log(err)
+    }
+
+})

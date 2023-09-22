@@ -21,8 +21,10 @@ exports.getinfo=(async (req,res)=>{
 })
 exports.getroom=(async(req,res)=>{
 try{
-    let resdata=await room.find({isAvailbale:true},{hotelName:new mongoose.Types.ObjectId(req.params.id)}).select("_id roomType pricePerDay")
-       res.status(200).json({resdata})
+   
+    let resdata=await room.find({hotelName:new mongoose.Types.ObjectId(req.params.id)}).select("_id roomType pricePerDay")
+      
+    res.status(200).json({resdata})
 }
 catch(err){
     console.log(err)
@@ -79,10 +81,14 @@ catch(err){
 exports.getfilter=(async (req,res)=>{
 try{
    console.log(req.body)
-   console.log('hotel name=======>',req.query.Name)
-          let hotel=await Hotel.findOne({name:(req.query.Name).toString()})
-    let roomlist=await room.find({isAvailbale:true,hotelName:hotel._id,price:{ $gt:req.query.lower, $lt:req.query.greater},})
-   let arr=[]
+   console.log('hotel name=======>',req.query.Name.toString(),req.query.lower,req.query.greater)
+          let hotel=await Hotel.findOne({name:req.query.Name.toString()})
+
+    // let roomlist=await room.find({hotelName:hotel._id,pricePerDay:{$gt:Number(req.query.lower), $lt:Number(req.query.greater)},})
+    let roomlist=await room.find({hotelName:hotel._id,})
+  
+    let arr=[]
+   console.log('roomlist',roomlist,hotel)
     let date1=new Date(req.query.startDate)
         let date2=new Date(req.query.endDate)
         while (date1 <= date2) {
@@ -94,12 +100,16 @@ try{
    let arr1=[];
     roomlist.forEach(e => {
        let arr2=[...arr]
+      
+       if(e.bookedDates.length>0){
         e.bookedDates.forEach((e,index,arr1)=>{
+           
              if(arr2.includes(e)){
-                let i=arr2.indexOf(e)
+               
+                let i=arr2.indexOf(new Date(e))
                 arr2.splice(i,1)
              }
-        })
+        })}
           arr1.push([e.roomType,arr2])
         })
      

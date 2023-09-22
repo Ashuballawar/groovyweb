@@ -6,9 +6,19 @@
     <title>Home Page</title>
 </head>
 <body>
-    <!-- <input type="button" value="add hotel" id="add_hotel"> -->
+  
    <ul id="hotellist"></ul>
+   <form id="filter">
+  <input type="text" name="search" id="search">
+  <input type="lowerprice" id="lowerprice">
+  <input type="upperprice" id="upperprice">
+    <input type="date" name="startdate" id="startdate">
+<input type="date" name="enddate" id="enddate">
+    <input type="submit" value="search" id="filterSubmit">
 
+
+
+   </form>
    <button id="mybooking">mybooking</button>
    <ul id="bookinglist"></ul>
 <script src="homepage.js"></script>
