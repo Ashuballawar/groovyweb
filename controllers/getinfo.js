@@ -35,7 +35,7 @@ catch(err){
 
 
 exports.mybooking=(async(req,res)=>{
-    console.log(req.user)
+   
    try{ let mybooking=await booking.find({userID:req.user._id}).populate('roomID').populate('hotelID')
   console.log(mybooking)
    res.status(200).json(mybooking)
@@ -48,7 +48,7 @@ exports.mybooking=(async(req,res)=>{
 
 
 exports.cancelbookin=(async(req,res)=>{
-try{console.log(req.body)
+try{
         let bookinfo=await booking.findByIdAndDelete({_id:req.body.id})
         let bookedroom=await room.find({_id:req.body.roomid})
         let date1=new Date(bookinfo.startDate)
@@ -61,7 +61,7 @@ try{console.log(req.body)
         return e>date2
     })
     let bookeddate=[...bookeddate1,...bookeddate2]
-    console.log('=====>',bookeddate)
+   
     await room.updateOne({_id:req.body.roomid},{$set:{isAvailable:true}})
         //  await Hotel.updateOne({_id:req.body.hotelid},{$set:{isAvailable:true}})
          await room.updateOne({_id:req.body.roomid},{$set:{bookedDates:bookeddate}})
@@ -80,15 +80,14 @@ catch(err){
 
 exports.getfilter=(async (req,res)=>{
 try{
-   console.log(req.body)
-   console.log('hotel name=======>',req.query.Name.toString(),req.query.lower,req.query.greater)
+   
           let hotel=await Hotel.findOne({name:req.query.Name.toString()})
 
     let roomlist=await room.find({hotelName:hotel._id,pricePerDay:{$gt:Number(req.query.lower), $lt:Number(req.query.greater)},})
     // let roomlist=await room.find({hotelName:hotel._id,})
   
     let arr=[]
-   console.log('roomlist',roomlist,hotel)
+  
     let date1=new Date(req.query.startDate)
         let date2=new Date(req.query.endDate)
         while (date1 <= date2) {
